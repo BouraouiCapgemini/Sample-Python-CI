@@ -33,20 +33,7 @@ jobs:
       - name: Build Docker image
         run: |
           docker build -t my-python-app .
-     # Build Binary (optional if you want to generate a binary instead of a Docker image)
-      - name: Install PyInstaller
-        run: |
-          pip install pyinstaller
-          
-      - name: Build Binary (optional)
-        run: |
-          pyinstaller --onefile hello.py
-          
-      - name: Upload Binary as artifact (optional)
-        uses: actions/upload-artifact@v4
-        with:
-          name: my-python-binary
-          path: dist/hello
+   
       # Optionally push the Docker image to DockerHub (replace with your own credentials)
       - name: Push Docker image to DockerHub
         run: |
@@ -61,10 +48,15 @@ jobs:
           docker save my-python-app > my-python-app.tar
 
 
-      # Build Binary (optional if you want to generate a binary instead of a Docker image)
+       # Build Binary (optional if you want to generate a binary instead of a Docker image)
+      - name: Install PyInstaller
+        run: |
+          pip install pyinstaller
+          
       - name: Build Binary (optional)
         run: |
           pyinstaller --onefile hello.py
+          
       - name: Upload Binary as artifact (optional)
         uses: actions/upload-artifact@v4
         with:
