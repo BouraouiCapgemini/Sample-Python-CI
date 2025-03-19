@@ -16,12 +16,12 @@ jobs:
       # Checkout the repository
       - name: Checkout code
         uses: actions/checkout@v3
+
       # Set up Python
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.8'
-    
 
       # Install dependencies (if any)
       - name: Install dependencies
@@ -41,12 +41,15 @@ jobs:
           docker tag my-python-app:latest ${{ secrets.DOCKER_USERNAME }}/my-python-app:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/my-python-app:latest
 
-      # Store Docker image as an artifact (optional)
+      # Save Docker image as artifact (fixed the artifact upload part)
       - name: Save Docker image as artifact
+        run: |
+          docker save my-python-app > my-python-app.tar
+      - name: Upload Docker image as artifact
         uses: actions/upload-artifact@v3
         with:
           name: my-python-app-image
-          path: ./my-python-app.tar
+          path: my-python-app.tar
 
       # Build Binary (optional if you want to generate a binary instead of a Docker image)
       - name: Build Binary (optional)
